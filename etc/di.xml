@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+
+    <!-- Command Recipes-->
+    <type name="Magento\Framework\Console\CommandList">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="ticaje_command_console_command_reader" xsi:type="object">Ticaje\CommandBus\Console\Command\Reader</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <!-- Command Bus Deps Definition -->
+
+        <!-- Decorator/Chain-of-Responsibility based solution -->
+        <virtualType name="Ticaje\CommandBus\UseCase\ReaderBusImplementor" type="Ticaje\Hexagonal\Application\Implementors\UseCase\Bus\TacticianMiddleWare">
+            <arguments>
+                <argument name="recipes" xsi:type="array">
+                    <item name="0" xsi:type="object">Ticaje\CommandBus\UseCase\Middleware\NotifierMiddleware</item>
+                    <item name="1" xsi:type="object">Ticaje\CommandBus\UseCase\Middleware\LoggerMiddleware</item>
+                    <item name="2" xsi:type="object">Ticaje\CommandBus\UseCase\Handler\ReaderHandler</item>
+                </argument>
+            </arguments>
+        </virtualType>
+
+        <virtualType name="Ticaje\CommandBus\UseCase\ReaderBus" type="Ticaje\Hexagonal\Application\UseCase\Bus\BusOrchrestator">
+            <arguments>
+                <argument name="implementor" xsi:type="object">Ticaje\CommandBus\UseCase\ReaderBusImplementor</argument>
+            </arguments>
+        </virtualType>
+        <!-- Decorator/Chain-of-Responsibility based solution -->
+
+        <!-- Simple Bus based solution -->
+        <virtualType name="Ticaje\CommandBus\UseCase\Bus" type="Ticaje\Hexagonal\Application\UseCase\Bus\Bus">
+            <arguments>
+                <argument name="commands" xsi:type="array">
+                    <item name="reader" xsi:type="object">Ticaje\CommandBus\UseCase\Command\ReaderCommand</item>
+                </argument>
+                <argument name="handlers" xsi:type="array">
+                    <item name="reader" xsi:type="object">Ticaje\CommandBus\UseCase\Handler\ReaderHandler</item>
+                </argument>
+                <argument name="implementor" xsi:type="object">Ticaje\Hexagonal\Application\Implementors\UseCase\Bus\Tactician</argument>
+            </arguments>
+        </virtualType>
+        <!-- Simple Bus based solution -->
+
+    <!-- CommandBus Deps Definition -->
+
+
+    <!-- Direct Deps Definition -->
+
+        <type name="Ticaje\CommandBus\Console\Command\Reader">
+            <arguments>
+                <argument name="bus" xsi:type="object">Ticaje\CommandBus\UseCase\Bus</argument>
+            </arguments>
+        </type>
+
+        <type name="Ticaje\CommandBus\Cron\Reader">
+            <arguments>
+                <argument name="bus" xsi:type="object">Ticaje\CommandBus\UseCase\ReaderBus</argument>
+            </arguments>
+        </type>
+
+        <type name="Ticaje\CommandBus\Controller\Reader\Index">
+            <arguments>
+                <argument name="bus" xsi:type="object">Ticaje\CommandBus\UseCase\ReaderBus</argument>
+            </arguments>
+        </type>
+
+    <!-- Direct Deps Definition -->
+
+</config>
