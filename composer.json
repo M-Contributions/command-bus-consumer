@@ -1,0 +1,35 @@
+{
+  "name": "ticaje/m2-command-bus",
+  "authors": [
+    {
+      "name": "Max Demian",
+      "email": "ticaje@filetea.me"
+    }
+  ],
+  "license": [
+    "OSL-3.0",
+    "AFL-3.0"
+  ],
+  "description": "Module uses Command-Bus design pattern",
+  "type": "magento2-module",
+  "version": "1.0.0",
+  "require": {
+    "php": "^7.0",
+    "magento/product-community-edition": "*",
+    "ticaje/hexagonal": "^1.0"
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://repo.magento.com/"
+    }
+  ],
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "Ticaje\\CommandBus\\": ""
+    }
+  }
+}
