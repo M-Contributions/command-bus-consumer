@@ -13,7 +13,7 @@
     <!-- Command Bus Deps Definition -->
 
         <!-- Decorator/Chain-of-Responsibility based solution -->
-        <virtualType name="Ticaje\CommandBus\UseCase\ReaderBusImplementor" type="Ticaje\Hexagonal\Application\Implementors\UseCase\Bus\TacticianMiddleWare">
+        <virtualType name="Ticaje\CommandBus\UseCase\ReaderBusProvider" type="Ticaje\Hexagonal\Application\Implementors\UseCase\Bus\TacticianMiddleWare">
             <arguments>
                 <argument name="recipes" xsi:type="array">
                     <item name="0" xsi:type="object">Ticaje\CommandBus\UseCase\Middleware\NotifierMiddleware</item>
@@ -23,15 +23,40 @@
             </arguments>
         </virtualType>
 
-        <virtualType name="Ticaje\CommandBus\UseCase\ReaderBus" type="Ticaje\Hexagonal\Application\UseCase\Bus\BusOrchrestator">
+        <virtualType name="Ticaje\CommandBus\UseCase\GetAvailabilityBusProvider" type="Ticaje\Hexagonal\Application\Implementors\UseCase\Bus\TacticianMiddleWare">
             <arguments>
-                <argument name="implementor" xsi:type="object">Ticaje\CommandBus\UseCase\ReaderBusImplementor</argument>
+                <argument name="recipes" xsi:type="array">
+                    <item name="0" xsi:type="object">Ticaje\CommandBus\UseCase\Middleware\NotifierMiddleware</item>
+                    <item name="1" xsi:type="object">Ticaje\CommandBus\UseCase\Middleware\LoggerMiddleware</item>
+                    <item name="2" xsi:type="object">Ticaje\CommandBus\UseCase\Handler\GetAvailabilityHandler</item>
+                </argument>
             </arguments>
         </virtualType>
-        <!-- Decorator/Chain-of-Responsibility based solution -->
+
+        <!-- Single Bus Approach(One bus per command) -->
+        <virtualType name="Ticaje\CommandBus\UseCase\ReaderDecoratorBasedBus" type="Ticaje\Hexagonal\Application\UseCase\Bus\Decorator\SingleBus">
+            <arguments>
+                <argument name="implementor" xsi:type="object">Ticaje\CommandBus\UseCase\ReaderBusProvider</argument>
+            </arguments>
+        </virtualType>
+        <!-- Single Bus Approach(One bus per command) -->
+
+
+        <!-- Wrapper Bus Approach(One bus resolving all commands) -->
+        <virtualType name="Ticaje\CommandBus\UseCase\DecoratorBasedBus" type="Ticaje\Hexagonal\Application\UseCase\Bus\Decorator\ProxyBus">
+            <arguments>
+                <argument name="providers" xsi:type="array">
+                    <item name="Ticaje\CommandBus\UseCase\Command\ReaderCommand" xsi:type="object">Ticaje\CommandBus\UseCase\ReaderBusProvider</item>
+                    <item name="Ticaje\CommandBus\UseCase\Command\GetAvailabilityCommand" xsi:type="object">Ticaje\CommandBus\UseCase\GetAvailabilityBusProvider</item>
+                </argument>
+            </arguments>
+        </virtualType>
+    <!-- Wrapper Bus Approach(One bus resolving all commands) -->
+
+    <!-- Decorator/Chain-of-Responsibility based solution -->
 
         <!-- Simple Bus based solution -->
-        <virtualType name="Ticaje\CommandBus\UseCase\Bus" type="Ticaje\Hexagonal\Application\UseCase\Bus\Bus">
+        <virtualType name="Ticaje\CommandBus\UseCase\SimpleBus" type="Ticaje\Hexagonal\Application\UseCase\Bus\Bus">
             <arguments>
                 <argument name="commands" xsi:type="array">
                     <item name="reader" xsi:type="object">Ticaje\CommandBus\UseCase\Command\ReaderCommand</item>
@@ -51,19 +76,19 @@
 
         <type name="Ticaje\CommandBus\Console\Command\Reader">
             <arguments>
-                <argument name="bus" xsi:type="object">Ticaje\CommandBus\UseCase\Bus</argument>
+                <argument name="bus" xsi:type="object">Ticaje\CommandBus\UseCase\SimpleBus</argument>
             </arguments>
         </type>
 
         <type name="Ticaje\CommandBus\Cron\Reader">
             <arguments>
-                <argument name="bus" xsi:type="object">Ticaje\CommandBus\UseCase\ReaderBus</argument>
+                <argument name="bus" xsi:type="object">Ticaje\CommandBus\UseCase\DecoratorBasedBus</argument>
             </arguments>
         </type>
 
         <type name="Ticaje\CommandBus\Controller\Reader\Index">
             <arguments>
-                <argument name="bus" xsi:type="object">Ticaje\CommandBus\UseCase\ReaderBus</argument>
+                <argument name="bus" xsi:type="object">Ticaje\CommandBus\UseCase\ReaderDecoratorBasedBus</argument>
             </arguments>
         </type>
 
