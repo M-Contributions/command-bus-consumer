@@ -10,9 +10,10 @@
         </arguments>
     </type>
 
-    <!-- Command Bus Deps Definition -->
+    <!-- CommandBus Deps Definition -->
 
         <!-- Decorator/Chain-of-Responsibility based solution -->
+
         <virtualType name="Ticaje\CommandBus\UseCase\ReaderBusProvider" type="Ticaje\Hexagonal\Application\Implementors\UseCase\Bus\TacticianMiddleWare">
             <arguments>
                 <argument name="recipes" xsi:type="array">
@@ -51,9 +52,9 @@
                 </argument>
             </arguments>
         </virtualType>
-    <!-- Wrapper Bus Approach(One bus resolving all commands) -->
+        <!-- Wrapper Bus Approach(One bus resolving all commands) -->
 
-    <!-- Decorator/Chain-of-Responsibility based solution -->
+        <!-- Decorator/Chain-of-Responsibility based solution -->
 
         <!-- Simple Bus based solution -->
         <virtualType name="Ticaje\CommandBus\UseCase\SimpleBus" type="Ticaje\Hexagonal\Application\UseCase\Bus\Bus">
