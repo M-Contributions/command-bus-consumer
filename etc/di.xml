@@ -6,7 +6,7 @@
         <arguments>
             <argument name="commands" xsi:type="array">
                 <item name="ticaje_command_console_command_reader" xsi:type="object">Ticaje\CommandBus\Console\Command\Reader</item>
-                <item name="ticaje_command_console_command_reader" xsi:type="object">Ticaje\CommandBus\Console\Command\GetAvailability</item>
+                <item name="ticaje_command_console_command_availability" xsi:type="object">Ticaje\CommandBus\Console\Command\GetAvailability</item>
             </argument>
         </arguments>
     </type>
