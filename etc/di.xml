@@ -6,6 +6,7 @@
         <arguments>
             <argument name="commands" xsi:type="array">
                 <item name="ticaje_command_console_command_reader" xsi:type="object">Ticaje\CommandBus\Console\Command\Reader</item>
+                <item name="ticaje_command_console_command_reader" xsi:type="object">Ticaje\CommandBus\Console\Command\GetAvailability</item>
             </argument>
         </arguments>
     </type>
@@ -78,6 +79,12 @@
         <type name="Ticaje\CommandBus\Console\Command\Reader">
             <arguments>
                 <argument name="bus" xsi:type="object">Ticaje\CommandBus\UseCase\SimpleBus</argument>
+            </arguments>
+        </type>
+
+        <type name="Ticaje\CommandBus\Console\Command\GetAvailability">
+            <arguments>
+                <argument name="bus" xsi:type="object">Ticaje\CommandBus\UseCase\DecoratorBasedBus</argument>
             </arguments>
         </type>
 
