@@ -12,18 +12,43 @@ use Psr\Log\LoggerInterface;
 
 class LoggerMiddleware implements Middleware
 {
+    /**
+     * @var LoggerInterface
+     */
     private $logger;
 
+    /**
+     * LoggerMiddleware constructor.
+     *
+     * @param LoggerInterface $logger
+     */
     public function __construct(LoggerInterface $logger)
     {
         $this->logger = $logger;
     }
 
+    /**
+     * @param object   $command
+     * @param callable $next
+     *
+     * @return mixed
+     */
     public function execute($command, callable $next)
     {
-        $json = \json_encode((array)$command);
-        $this->logger->info("Start logging event with data {$json}....\n");
+        // Logging logic...
+        $this->logic($command);
 
         return $next($command);
+    }
+
+    /**
+     * @param $command
+     */
+    private function logic($command)
+    {
+        $json = \json_encode((array)$command);
+        $logMessage = "Start logging event with data {$json}....\n";
+        $this->logger->info($logMessage);
+        echo $logMessage;
     }
 }
