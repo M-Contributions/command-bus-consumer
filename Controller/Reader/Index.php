@@ -1,5 +1,9 @@
 <?php
 declare(strict_types=1);
+/**
+ * Controller Class
+ * @author Hector Luis Barrientos <ticaje@filetea.me>
+ */
 
 namespace Ticaje\CommandBus\Controller\Reader;
 

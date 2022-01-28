@@ -1,5 +1,9 @@
 <?php
 declare(strict_types=1);
+/**
+ * Console Command Class
+ * @author Hector Luis Barrientos <ticaje@filetea.me>
+ */
 
 namespace Ticaje\CommandBus\Console\Command;
 

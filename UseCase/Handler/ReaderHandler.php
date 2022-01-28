@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 /**
- * Console Suite
+ * Handler Class
  * @author Hector Luis Barrientos <ticaje@filetea.me>
  */
 
@@ -24,7 +24,7 @@ class ReaderHandler implements Middleware, HandlerInterface
     public function execute($command, callable $next)
     {
         $result = $this->handle($command);
-        $next($command);
+        $next($result);
 
         return $result;
     }
@@ -37,12 +37,17 @@ class ReaderHandler implements Middleware, HandlerInterface
     public function handle(UseCaseCommandInterface $command): ResponseInterface
     {
         $result = "Store: {$command->getStoreId()}, Email:{$command->getEmail()}";
-        $response = (new Response())
-            ->setSuccess(true)
-            ->setContent($result)
-            ->setMessage('Successfully executed...');
+        $response = new Response();
+        if (!$result) {
+            $response->setSuccess(false)
+                ->setContent($command)
+                ->setMessage('Not successful response');
+        } else {
+            $response->setSuccess(true)
+                ->setContent($result)
+                ->setMessage('Successfully executed...');
+        }
 
         return $response;
     }
 }
-
