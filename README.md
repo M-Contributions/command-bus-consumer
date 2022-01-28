@@ -64,9 +64,11 @@ In our case we are gonna use a library called Tactician which offers really usef
 
 ## Bibliography
 
-https://matthiasnoback.nl/2015/01/responsibilities-of-the-command-bus/
-https://refactoring.guru/design-patterns/command/php/example
-https://tactician.thephpleague.com/
+- https://matthiasnoback.nl/2015/01/responsibilities-of-the-command-bus/
+
+- https://refactoring.guru/design-patterns/command/php/example
+
+- https://tactician.thephpleague.com/
 
 ## Credits
 
