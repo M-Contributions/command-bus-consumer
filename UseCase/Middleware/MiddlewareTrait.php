@@ -32,22 +32,4 @@ trait MiddlewareTrait
             $this->postLogic($command);
         }
     }
-
-    /**
-     * @param ResponseInterface $response
-     * @param callable          $logic
-     */
-    private function runSuccess(ResponseInterface $response, callable $logic)
-    {
-        $logic($response);
-    }
-
-    /**
-     * @param ResponseInterface $response
-     * @param callable          $logic
-     */
-    private function runFailure(ResponseInterface $response, callable $logic)
-    {
-        $logic($response);
-    }
 }

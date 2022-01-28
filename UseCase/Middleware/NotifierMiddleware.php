@@ -30,6 +30,7 @@ class NotifierMiddleware implements Middleware
 
     /**
      * This method has no implementation cause is left to be filled in by stakeholders.
+     *
      * @param UseCaseCommandInterface $command
      */
     private function preLogic(UseCaseCommandInterface $command)
@@ -39,15 +40,17 @@ class NotifierMiddleware implements Middleware
 
     /**
      * This method has no implementation cause is left to be filled in by stakeholders.
+     *
      * @param ResponseInterface $response
      */
     private function postLogic(ResponseInterface $response)
     {
-        $response->getSuccess() ? $this->runSuccess($response, (function (ResponseInterface $response) {
+        $logic = $response->getSuccess() ? function (ResponseInterface $response) {
             $message = "Sending success post notification, message: {$response->getMessage()} \n";
             $content = "Sending success post notification, content: {$response->getContent()} \n";
-        })) : $this->runFailure($response, (function (ResponseInterface $response) {
+        } : function (ResponseInterface $response) {
             $message = "Sending failure post notification, message: {$response->getMessage()} \n";
-        }));
+        };
+        $logic($response);
     }
 }

@@ -63,12 +63,13 @@ class LoggerMiddleware implements Middleware
     {
         $json = \json_encode((array)$response->getContent());
         $this->logger->info($json);
-        $response->getSuccess() ? $this->runSuccess($response, (function (ResponseInterface $response) {
+        $logic = $response->getSuccess() ? function (ResponseInterface $response) {
             $logMessage = "Logging success post event, message: {$response->getMessage()}....\n";
             $this->logger->info($logMessage);
-        })) : $this->runFailure($response, (function (ResponseInterface $response) {
+        } : function (ResponseInterface $response) {
             $logMessage = "Logging failure post event, message:  {$response->getMessage()}....\n";
             $this->logger->info($logMessage);
-        }));
+        };
+        $logic($response);
     }
 }
