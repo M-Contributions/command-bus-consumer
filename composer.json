@@ -12,10 +12,9 @@
   ],
   "description": "Module uses Command-Bus design pattern",
   "type": "magento2-module",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "require": {
     "php": "^7.0",
-    "magento/product-community-edition": "*",
     "ticaje/hexagonal": "^1.0"
   },
   "repositories": [
